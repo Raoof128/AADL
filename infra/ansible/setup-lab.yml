@@ -1,0 +1,26 @@
+---
+- name: Configure ADCS lab hosts
+  hosts: all
+  gather_facts: no
+  vars:
+    domain_name: "lab.local"
+  tasks:
+    - name: Placeholder debug ensuring offline safety
+      ansible.builtin.debug:
+        msg: "Configuring host {{ inventory_hostname }} in isolated lab {{ domain_name }}"
+
+- name: Configure certificate authorities
+  hosts: root_ca:subordinate_ca
+  gather_facts: no
+  tasks:
+    - name: Ensure ADCS role would be installed (simulation)
+      ansible.builtin.debug:
+        msg: "Install-ADCS-CertificationAuthority with safe defaults"
+
+- name: Harden web enrollment
+  hosts: web_enrollment
+  gather_facts: no
+  tasks:
+    - name: Enforce HTTPS requirement (simulation)
+      ansible.builtin.debug:
+        msg: "Require mTLS for web enrollment endpoints"
