@@ -1,0 +1,49 @@
+certificate_authorities:
+  - name: "LAB-ROOT-CA"
+    role: "root"
+    location: "LAB-DATA-CENTER"
+    nt_auth_published: true
+    eku: ["Server Authentication", "Client Authentication"]
+  - name: "LAB-SUB-CA"
+    role: "subordinate"
+    parent: "LAB-ROOT-CA"
+    location: "LAB-DATA-CENTER"
+    nt_auth_published: true
+    eku: ["Server Authentication", "Client Authentication"]
+
+certificate_templates:
+  - name: "UserAuthentication"
+    eku: ["Client Authentication"]
+    enrollment_rights: ["Domain Users"]
+    manager_approval_required: false
+    subject_name_editable: true
+    superseded_templates: []
+    validity_days: 365
+    owner: "PKI Admins"
+  - name: "MachineAuthentication"
+    eku: ["Client Authentication", "Server Authentication"]
+    enrollment_rights: ["Domain Computers"]
+    manager_approval_required: true
+    subject_name_editable: false
+    superseded_templates: ["UserAuthentication"]
+    validity_days: 365
+    owner: "PKI Admins"
+  - name: "ESC1-Template"
+    eku: ["Client Authentication", "Smart Card Logon"]
+    enrollment_rights: ["Domain Users", "PKI Auditors"]
+    manager_approval_required: false
+    subject_name_editable: true
+    superseded_templates: []
+    validity_days: 180
+    owner: "PKI Admins"
+
+security_principals:
+  - name: "alice"
+    groups: ["Domain Users"]
+    can_edit_subject: true
+  - name: "bob-admin"
+    groups: ["Domain Admins", "PKI Admins"]
+    can_edit_subject: false
+  - name: "pki-auditor"
+    groups: ["PKI Auditors"]
+    can_edit_subject: true
